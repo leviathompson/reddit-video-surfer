@@ -61,16 +61,16 @@ function displayPost(post) {
             content = document.createElement('video');
             content.autoplay = true;
             content.controls = true;
-            content.style.maxWidth = '80%';
-            content.style.maxHeight = '80%';
+            content.style.maxWidth = '100%';
+            content.style.maxHeight = '100%';
             overlay.appendChild(content);
         }
         content.src = post.data.secure_media.reddit_video.fallback_url;
     } else {
         if (content.tagName !== 'IMG') {
             content = document.createElement('img');
-            content.style.maxWidth = '80%';
-            content.style.maxHeight = '80%';
+            content.style.maxWidth = '100%';
+            content.style.maxHeight = '100%';
             overlay.appendChild(content);
         }
         content.src = post.data.url;
@@ -94,13 +94,13 @@ function nextPost() {
 
 // Navigate to the previous image or video
 function previousPost() {
-    if (previousPosts.length === 0) {
+    if (currentIndex === 0) {
         console.log('No previous posts');
         return;
     }
 
-    let post = previousPosts.pop();
-    postQueue.unshift(post);
+    currentIndex = (currentIndex - 1) % posts.length;
+    let post = posts[currentIndex];
 
     // Now display the post as an overlay
     displayPost(post);
@@ -147,6 +147,3 @@ let sort = sortMatch ? sortMatch[1] : 'hot';
 let t = tMatch ? tMatch[1] : 'all';
 
 fetchPosts(subs, sort, t);
-
-
-
