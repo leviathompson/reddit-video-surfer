@@ -1,31 +1,44 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
-  "options_page": "options.html",
-  "background": { "service_worker": "background.bundle.js" },
+  "name": "Reddit Full-Screen Browser",
+  "version": "1.0.0",
+  "description": "Browse Reddit videos and images in full-screen mode with keyboard shortcuts.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "<all_urls>"
+  ],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon-34.png"
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
   },
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
   },
   "icons": {
-    "128": "icon-128.png"
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
-      "js": ["contentScript.bundle.js"],
-      "css": ["content.styles.css"]
+      "matches": ["https://*.reddit.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ],
-  "devtools_page": "devtools.html",
-  "web_accessible_resources": [
-    {
-      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
-      "matches": []
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+R",
+        "mac": "Command+Shift+R"
+      },
+      "description": "Opens Reddit Full-Screen Browser"
     }
-  ]
+  }
 }
